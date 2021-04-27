@@ -1,12 +1,28 @@
 import java.io.*;
-import java.util.stream.*;
 
 class Result {
 
-  public static long taumBday(int b, int w, int bc, int wc, int z) {
-    long bMin = Math.min(bc, wc + z);
-    long wMin = Math.min(wc, bc + z);
-    return (bMin * b) + (wMin * w);
+  private static boolean isKaprekar(long x) {
+    String sqrString = String.valueOf(x * x);
+    if (sqrString.length() <= 1) {
+      sqrString = "0".concat(sqrString);
+    }
+
+    int L = sqrString.length();
+    String[] v = {sqrString.substring(0, L / 2), sqrString.substring(L / 2)};
+    return Long.parseLong(v[0]) + Long.parseLong(v[1]) == x;
+  }
+
+  public static String kaprekarNumbers(int p, int q) {
+    StringBuilder result = new StringBuilder();
+    while (p <= q) {
+      if (isKaprekar(p)) {
+        result.append(p).append(" ");
+      }
+      p++;
+    }
+
+    return result.toString().isEmpty() ? "INVALID RANGE" : result.toString().trim();
   }
 
 }
@@ -14,30 +30,9 @@ class Result {
 public class Solution {
   public static void main(String[] args) throws IOException {
     BufferedReader bufferedReader = new BufferedReader(new FileReader("input.txt"));
-    BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("output.txt"));
+    int p = Integer.parseInt(bufferedReader.readLine().trim());
+    int q = Integer.parseInt(bufferedReader.readLine().trim());
 
-    int t = Integer.parseInt(bufferedReader.readLine().trim());
-    IntStream.range(0, t).forEach(tItr -> {
-      try {
-        String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
-        int b = Integer.parseInt(firstMultipleInput[0]);
-        int w = Integer.parseInt(firstMultipleInput[1]);
-        String[] secondMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
-
-        int bc = Integer.parseInt(secondMultipleInput[0]);
-        int wc = Integer.parseInt(secondMultipleInput[1]);
-        int z = Integer.parseInt(secondMultipleInput[2]);
-
-        long result = Result.taumBday(b, w, bc, wc, z);
-
-        bufferedWriter.write(String.valueOf(result));
-        bufferedWriter.newLine();
-      } catch (IOException ex) {
-        throw new RuntimeException(ex);
-      }
-    });
-
-    bufferedReader.close();
-    bufferedWriter.close();
+    System.out.println(Result.kaprekarNumbers(p, q));
   }
 }
