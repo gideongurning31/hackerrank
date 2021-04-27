@@ -1,38 +1,40 @@
 import java.io.*;
 
 class Result {
+  public static int beautifulTriplets(int d, int[] arr) {
+    int result = 0;
+    int L = arr.length;
 
-  private static boolean isKaprekar(long x) {
-    String sqrString = String.valueOf(x * x);
-    if (sqrString.length() <= 1) {
-      sqrString = "0".concat(sqrString);
-    }
-
-    int L = sqrString.length();
-    String[] v = {sqrString.substring(0, L / 2), sqrString.substring(L / 2)};
-    return Long.parseLong(v[0]) + Long.parseLong(v[1]) == x;
-  }
-
-  public static String kaprekarNumbers(int p, int q) {
-    StringBuilder result = new StringBuilder();
-    while (p <= q) {
-      if (isKaprekar(p)) {
-        result.append(p).append(" ");
+    for (int i = 0; i < L; i++) {
+      for (int j = i + 1; j < L; j++) {
+        if (arr[j] - arr[i] == d) {
+          for (int k = j + 1; k < L; k++) {
+            if (arr[k] - arr[j] == d) result++;
+          }
+        }
       }
-      p++;
     }
 
-    return result.toString().isEmpty() ? "INVALID RANGE" : result.toString().trim();
+    return result;
   }
-
 }
 
 public class Solution {
   public static void main(String[] args) throws IOException {
     BufferedReader bufferedReader = new BufferedReader(new FileReader("input.txt"));
-    int p = Integer.parseInt(bufferedReader.readLine().trim());
-    int q = Integer.parseInt(bufferedReader.readLine().trim());
+    BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("output.txt"));
+    String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+    int d = Integer.parseInt(firstMultipleInput[1]);
 
-    System.out.println(Result.kaprekarNumbers(p, q));
+    String[] arrStr = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+    int[] arr = new int[arrStr.length];
+    for (int i = 0; i < arrStr.length; i++) {
+      arr[i] = Integer.parseInt(arrStr[i]);
+    }
+
+    bufferedWriter.write(String.valueOf(Result.beautifulTriplets(d, arr)));
+    bufferedWriter.newLine();
+    bufferedReader.close();
+    bufferedWriter.close();
   }
 }
