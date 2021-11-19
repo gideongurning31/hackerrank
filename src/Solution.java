@@ -1,58 +1,53 @@
 import java.io.*;
 
-class Result {
-
-  public static int specialProblems = 0;
-  private static int currentPage = 0;
-  private static int problemNo = 1;
-
-  private static void isSpecialProblem(int problemsInChapter, int limit) {
-    while (problemsInChapter != 0 && limit != 0) {
-      if (problemNo == currentPage) specialProblems++;
-      problemNo++;
-      problemsInChapter--;
-      limit--;
-    }
-  }
-
-  public static int workbook(int limit, int[] chapters) {
-    int i = 0;
-    while (i < chapters.length) {
-      currentPage++;
-      isSpecialProblem(chapters[i], limit);
-
-      if (limit >= chapters[i]) {
-        problemNo = 1;
-        i++;
-      } else {
-        problemNo += problemNo == 1 ? limit : 0;
-        chapters[i] -= limit;
-      }
-    }
-
-    return specialProblems;
-  }
-}
-
 public class Solution {
+
+  private static int longestGap = 0;
+
   public static void main(String[] args) throws IOException {
     BufferedReader bufferedReader = new BufferedReader(new FileReader("input.txt"));
     BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("output.txt"));
+
     String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
 
-    int n = Integer.parseInt(firstMultipleInput[0]);
-    int k = Integer.parseInt(firstMultipleInput[1]);
+    for (String n : firstMultipleInput) {
+      int value = Integer.parseInt(n);
+      System.out.println("Result: ".concat(String.valueOf(longestBinaryGap(value))));
+    }
+  }
 
-    String[] s = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
-    int[] arr = new int[n];
-    for (int i = 0; i < n; i++) {
-      arr[i] = Integer.parseInt(s[i]);
+  private static int longestBinaryGap(int N) {
+    String binary = Integer.toBinaryString(N);
+
+    if (binary.length() <= 1) {
+      return 0;
     }
 
-    int result = Result.workbook(k, arr);
-    bufferedWriter.write(String.valueOf(result));
-    bufferedWriter.newLine();
-    bufferedReader.close();
-    bufferedWriter.close();
+    int count = 0;
+    for (int i = 0; i < binary.length() - 1; i++) {
+      for (int j = 1; j < binary.length(); j++) {
+        int firstChar = binary.charAt(i) == 48 ? 0 : 1;
+        int nextChar = binary.charAt(j) == 48 ? 0 : 1;
+
+        if (firstChar == 0) {
+          count = 0;
+        } else {
+          if (nextChar == 0) {
+            count++;
+          } else {
+            setLongestGap(count);
+            count = 0;
+          }
+        }
+      }
+    }
+
+    return longestGap;
+  }
+
+  private static void setLongestGap(int gap) {
+    if (longestGap < gap) {
+      longestGap = gap;
+    }
   }
 }
