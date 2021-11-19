@@ -18,27 +18,16 @@ public class Solution {
 
   private static int longestBinaryGap(int N) {
     String binary = Integer.toBinaryString(N);
-
     if (binary.length() <= 1) {
       return 0;
     }
 
-    int count = 0;
-    for (int i = 0; i < binary.length() - 1; i++) {
-      for (int j = 1; j < binary.length(); j++) {
-        int firstChar = binary.charAt(i) == 48 ? 0 : 1;
-        int nextChar = binary.charAt(j) == 48 ? 0 : 1;
+    String[] binarySpliced = binary.replace("1", "#1").split("#");
 
-        if (firstChar == 0) {
-          count = 0;
-        } else {
-          if (nextChar == 0) {
-            count++;
-          } else {
-            setLongestGap(count);
-            count = 0;
-          }
-        }
+    for (int i = 0; i < binarySpliced.length - 1; i++) {
+      if (!binarySpliced[i + 1].equals("0")) {
+        System.out.println(binarySpliced[i]);
+        setLongestGap(binarySpliced[i].length() - 1);
       }
     }
 
