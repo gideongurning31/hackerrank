@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.Arrays;
 
 public class Solution {
 
@@ -7,37 +6,24 @@ public class Solution {
     BufferedReader bufferedReader = new BufferedReader(new FileReader("input.txt"));
     String[] textInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
 
-    int k = Integer.parseInt(textInput[1]);
-    String[] arrayInput = textInput[0].split(",");
-    int[] input = new int[arrayInput.length];
-    for (int i = 0; i < arrayInput.length; i++) {
-      input[i] = Integer.parseInt(arrayInput[i]);
-    }
+    int x = Integer.parseInt(textInput[0]);
+    int y = Integer.parseInt(textInput[1]);
+    int d = Integer.parseInt(textInput[2]);
 
-    System.out.println("Result: ".concat(Arrays.toString(arrayRotation(input, k))));
+    System.out.println("Result: ".concat(String.valueOf(frogJump(x, y, d))));
   }
 
-  private static int[] result;
+  private static int frogJump(int x, int y, int d) {
+    int distance = y - x;
+    int distanceRemainder = distance % d;
+    int roundDistance = distance - distanceRemainder;
+    int totalJumped = roundDistance / d;
 
-  private static int[] arrayRotation(int[] arr, int K) {
-    result = arr;
-
-    if (arr.length == 0) {
-      return arr;
+    if (distanceRemainder > 0) {
+      return totalJumped + 1;
     }
 
-    while (K != 0) {
-      rotateOnce();
-      K--;
-    }
-
-    return result;
+    return totalJumped;
   }
 
-  private static void rotateOnce() {
-    int n = result.length;
-    final int nthValue = result[n - 1];
-    System.arraycopy(result, 0, result, 1, n - 1);
-    result[0] = nthValue;
-  }
 }
