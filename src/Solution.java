@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.HashSet;
 
 public class Solution {
 
@@ -15,17 +14,28 @@ public class Solution {
         System.out.println("Result: ".concat(String.valueOf(solution(input))));
     }
 
-    private static int solution(int[] A) {
-        HashSet<Integer> temp = new HashSet<>();
+    private static int result = Integer.MAX_VALUE;
 
+    private static int solution(int[] A) {
+        int rightSum = 0;
         for (int a : A) {
-            if (temp.contains(a)) {
-                temp.remove(a);
-            } else {
-                temp.add(a);
-            }
+            rightSum += a;
         }
 
-        return temp.iterator().next();
+        int leftSum = 0;
+        for (int i = 0; i < A.length - 1; i++) {
+            leftSum += A[i];
+            rightSum -= A[i];
+            minDiffAbs(leftSum - rightSum);
+        }
+
+        return result;
+    }
+
+    private static void minDiffAbs(int val) {
+        int absVal = val >= 0 ? val : -1 * val;
+        if (result > absVal) {
+            result = absVal;
+        }
     }
 }
