@@ -6,25 +6,29 @@ public class Solution {
         BufferedReader bufferedReader = new BufferedReader(new FileReader("input.txt"));
         String[] textInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
 
-        int[] input = new int[textInput.length];
-        for (int i = 0; i < input.length; i++) {
-            input[i] = Integer.parseInt(textInput[i]);
-        }
-
-        System.out.println("Result: ".concat(String.valueOf(solution(input[0]))));
+        System.out.println("Result: ".concat(String.valueOf(solution(textInput[0]))));
     }
 
-    private static int solution(int N) {
-        int i = 1;
-        while (i < Integer.MAX_VALUE) {
-            double pow = Math.pow(2L, i);
-            if (N % pow != 0) {
-                break;
-            }
-
-            i++;
+    private static int solution(String s) {
+        if (s.length() == 0) {
+            return -1;
+        } else if (s.length() == 1) {
+            return 0;
         }
 
-        return i - 1;
+        final int l = s.length();
+        final int modulo = l % 2;
+        final int halfWay = (s.length() - modulo) / 2;
+        for (int i = halfWay, j = halfWay; j >= 0; i++, j--) {
+            try {
+                if (s.charAt(i) != s.charAt(j)) {
+                    return -1;
+                }
+            } catch (StringIndexOutOfBoundsException e) {
+                return -1;
+            }
+        }
+
+        return halfWay;
     }
 }
