@@ -1,33 +1,31 @@
 import java.io.*;
+import java.util.HashSet;
 
 public class Solution {
 
-  public static void main(String[] args) throws IOException {
-    BufferedReader bufferedReader = new BufferedReader(new FileReader("input.txt"));
-    String[] textInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new FileReader("input.txt"));
+        String[] textInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
 
-    int[] input = new int[textInput.length];
-    for (int i = 0; i < input.length; i++) {
-      input[i] = Integer.parseInt(textInput[i]);
+        int[] input = new int[textInput.length];
+        for (int i = 0; i < input.length; i++) {
+            input[i] = Integer.parseInt(textInput[i]);
+        }
+
+        System.out.println("Result: ".concat(String.valueOf(solution(input))));
     }
 
-    System.out.println("Result: ".concat(String.valueOf(permMissingElement(input))));
-  }
+    private static int solution(int[] A) {
+        HashSet<Integer> temp = new HashSet<>();
 
-  private static int permMissingElement(int[] A) {
-    int[] completeArr = new int[A.length + 1];
+        for (int a : A) {
+            if (temp.contains(a)) {
+                temp.remove(a);
+            } else {
+                temp.add(a);
+            }
+        }
 
-    for (int x : A) {
-      completeArr[x - 1] = x;
+        return temp.iterator().next();
     }
-
-    for (int i = 0; i < completeArr.length; i++) {
-      if (completeArr[i] == 0) {
-        return i + 1;
-      }
-    }
-
-    return 0;
-  }
-
 }
