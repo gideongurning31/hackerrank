@@ -12,19 +12,19 @@ public class Solution {
             input[i] = Integer.parseInt(textInput[i]);
         }
 
-        int X = 5;
-        System.out.println("Result: ".concat(String.valueOf(solution(X, input))));
+        System.out.println("Result: ".concat(String.valueOf(solution(input))));
     }
 
-    private static int solution(int X, int[] A) {
-        HashSet<Integer> leafPosts = new HashSet<>();
-        for (int i = 0; i < A.length; i++) {
-            leafPosts.add(A[i]);
-            if (leafPosts.size() == X) {
-                return i;
+    private static int solution(int[] A) {
+        HashSet<Integer> checks = new HashSet<>();
+        int max = A.length;
+        for (int a : A) {
+            checks.add(a);
+            if (max < a) {
+                max = a;
             }
         }
 
-        return -1;
+        return checks.size() == max ? 1 : 0;
     }
 }
