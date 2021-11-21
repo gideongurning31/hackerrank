@@ -11,23 +11,20 @@ public class Solution {
             input[i] = Integer.parseInt(textInput[i]);
         }
 
-        System.out.println("Result: ".concat(String.valueOf(solution(input))));
+        System.out.println("Result: ".concat(String.valueOf(solution(input[0]))));
     }
 
-    private static int solution(int[] A) {
-        int eastCars = 0;
-        int total = 0;
-        for (int a : A) {
-            if (a == 0) {
-                eastCars++;
-            } else {
-                total += eastCars;
-                if (total > 1000000000) {
-                    return -1;
-                }
+    private static int solution(int N) {
+        int i = 1;
+        while (i < Integer.MAX_VALUE) {
+            double pow = Math.pow(2L, i);
+            if (N % pow != 0) {
+                break;
             }
+
+            i++;
         }
 
-        return total;
+        return i - 1;
     }
 }
