@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.HashSet;
 
 public class Solution {
 
@@ -11,31 +12,19 @@ public class Solution {
             input[i] = Integer.parseInt(textInput[i]);
         }
 
-        System.out.println("Result: ".concat(String.valueOf(solution(input))));
+        int X = 5;
+        System.out.println("Result: ".concat(String.valueOf(solution(X, input))));
     }
 
-    private static int result = Integer.MAX_VALUE;
-
-    private static int solution(int[] A) {
-        int rightSum = 0;
-        for (int a : A) {
-            rightSum += a;
+    private static int solution(int X, int[] A) {
+        HashSet<Integer> leafPosts = new HashSet<>();
+        for (int i = 0; i < A.length; i++) {
+            leafPosts.add(A[i]);
+            if (leafPosts.size() == X) {
+                return i;
+            }
         }
 
-        int leftSum = 0;
-        for (int i = 0; i < A.length - 1; i++) {
-            leftSum += A[i];
-            rightSum -= A[i];
-            minDiffAbs(leftSum - rightSum);
-        }
-
-        return result;
-    }
-
-    private static void minDiffAbs(int val) {
-        int absVal = val >= 0 ? val : -1 * val;
-        if (result > absVal) {
-            result = absVal;
-        }
+        return -1;
     }
 }
