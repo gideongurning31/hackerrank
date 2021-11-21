@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.HashSet;
 
 public class Solution {
 
@@ -16,15 +15,19 @@ public class Solution {
     }
 
     private static int solution(int[] A) {
-        HashSet<Integer> checks = new HashSet<>();
-        int max = A.length;
+        int eastCars = 0;
+        int total = 0;
         for (int a : A) {
-            checks.add(a);
-            if (max < a) {
-                max = a;
+            if (a == 0) {
+                eastCars++;
+            } else {
+                total += eastCars;
+                if (total > 1000000000) {
+                    return -1;
+                }
             }
         }
 
-        return checks.size() == max ? 1 : 0;
+        return total;
     }
 }
