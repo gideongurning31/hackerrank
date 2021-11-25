@@ -4,31 +4,36 @@ public class Solution {
 
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new FileReader("input.txt"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("output.txt"));
         String[] textInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+        int[] input = new int[textInput.length];
+        for (int i = 0; i < input.length; i++) {
+            input[i] = Integer.parseInt(textInput[i]);
+        }
 
-        System.out.println("Result: ".concat(String.valueOf(solution(textInput[0]))));
+        bufferedWriter.write(bubbleSort(input));
+        bufferedReader.close();
+        bufferedWriter.close();
     }
 
-    private static int solution(String s) {
-        if (s.length() == 0) {
-            return -1;
-        } else if (s.length() == 1) {
-            return 0;
-        }
-
-        final int l = s.length();
-        final int modulo = l % 2;
-        final int halfWay = (s.length() - modulo) / 2;
-        for (int i = halfWay, j = halfWay; j >= 0; i++, j--) {
-            try {
-                if (s.charAt(i) != s.charAt(j)) {
-                    return -1;
+    private static String bubbleSort(int[] arr) {
+        int unsortedPartition = arr.length;
+        while (unsortedPartition != 0) {
+            for (int i = 0; i < unsortedPartition - 1; i++) {
+                if (arr[i] > arr[i + 1]) {
+                    int temp = arr[i];
+                    arr[i] = arr[i + 1];
+                    arr[i + 1] = temp;
                 }
-            } catch (StringIndexOutOfBoundsException e) {
-                return -1;
             }
+            unsortedPartition--;
         }
 
-        return halfWay;
+        StringBuilder result = new StringBuilder();
+        for (int i : arr) {
+            result.append(i).append(" ");
+        }
+
+        return result.toString().trim();
     }
 }
