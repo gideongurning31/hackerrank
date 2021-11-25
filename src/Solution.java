@@ -11,22 +11,25 @@ public class Solution {
             input[i] = Integer.parseInt(textInput[i]);
         }
 
-        bufferedWriter.write(bubbleSort(input));
+        bufferedWriter.write(selectionSort(input));
         bufferedReader.close();
         bufferedWriter.close();
     }
 
-    private static String bubbleSort(int[] arr) {
-        int unsortedPartition = arr.length;
-        while (unsortedPartition != 0) {
-            for (int i = 0; i < unsortedPartition - 1; i++) {
-                if (arr[i] > arr[i + 1]) {
-                    int temp = arr[i];
-                    arr[i] = arr[i + 1];
-                    arr[i + 1] = temp;
+    private static String selectionSort(int[] arr) {
+        int maxPartition = arr.length - 1;
+        while (maxPartition >= 0) {
+            int maxIndex = 0;
+            for (int i = 0; i <= maxPartition; i++) {
+                if (arr[i] > arr[maxIndex]) {
+                    maxIndex = i;
                 }
             }
-            unsortedPartition--;
+
+            int maxPerLoop = arr[maxIndex];
+            arr[maxIndex] = arr[maxPartition];
+            arr[maxPartition] = maxPerLoop;
+            maxPartition--;
         }
 
         StringBuilder result = new StringBuilder();
