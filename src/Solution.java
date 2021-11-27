@@ -11,37 +11,31 @@ public class Solution {
             input[i] = Integer.parseInt(textInput[i]);
         }
 
-        bufferedWriter.write(String.valueOf(howManyGames(input[0], input[1], input[2], input[3])));
+        bufferedWriter.write(String.valueOf(chocolateFeast(input[0], input[1], input[2])));
         bufferedReader.close();
         bufferedWriter.close();
     }
 
-    public static int howManyGames(int price, int discount, int minPrice, int wallet) {
-        // When I'm broke
-        if (wallet < price) {
+    public static int chocolateFeast(int money, int cost, int wrapCost) {
+        if (money < cost) {
             return 0;
         }
 
-        int subTotal = 0;
-        int shoppingChart = 0;
-        while (price > minPrice && wallet > subTotal) {
-            shoppingChart++;
-            subTotal += price;
-            price -= discount;
+        int total = 0;
+        int wrapper = 0;
+        while (money >= cost) {
+            total++;
+            wrapper++;
+            money -= cost;
         }
 
-        // Reached the minimum price
-        if (wallet == subTotal) {
-            return shoppingChart;
-        } else if (wallet < shoppingChart) {
-            return shoppingChart - 1;
+        int bonus = 0;
+        while (wrapper >= wrapCost) {
+            bonus++;
+            wrapper -= wrapCost;
+            wrapper++;
         }
 
-        // Buy multiple items with remaining money on minimum price
-        int walletLeft = wallet - subTotal;
-        int remainder = walletLeft % minPrice;
-        shoppingChart += (walletLeft - remainder) / minPrice;
-
-        return shoppingChart;
+        return total + bonus;
     }
 }
