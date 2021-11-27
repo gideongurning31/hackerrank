@@ -11,32 +11,37 @@ public class Solution {
             input[i] = Integer.parseInt(textInput[i]);
         }
 
-        bufferedWriter.write(selectionSort(input));
+        bufferedWriter.write(String.valueOf(howManyGames(input[0], input[1], input[2], input[3])));
         bufferedReader.close();
         bufferedWriter.close();
     }
 
-    private static String selectionSort(int[] arr) {
-        int maxPartition = arr.length - 1;
-        while (maxPartition >= 0) {
-            int maxIndex = 0;
-            for (int i = 0; i <= maxPartition; i++) {
-                if (arr[i] > arr[maxIndex]) {
-                    maxIndex = i;
-                }
-            }
-
-            int maxPerLoop = arr[maxIndex];
-            arr[maxIndex] = arr[maxPartition];
-            arr[maxPartition] = maxPerLoop;
-            maxPartition--;
+    public static int howManyGames(int price, int discount, int minPrice, int wallet) {
+        // When I'm broke
+        if (wallet < price) {
+            return 0;
         }
 
-        StringBuilder result = new StringBuilder();
-        for (int i : arr) {
-            result.append(i).append(" ");
+        int subTotal = 0;
+        int shoppingChart = 0;
+        while (price > minPrice && wallet > subTotal) {
+            shoppingChart++;
+            subTotal += price;
+            price -= discount;
         }
 
-        return result.toString().trim();
+        // Reached the minimum price
+        if (wallet == subTotal) {
+            return shoppingChart;
+        } else if (wallet < shoppingChart) {
+            return shoppingChart - 1;
+        }
+
+        // Buy multiple items with remaining money on minimum price
+        int walletLeft = wallet - subTotal;
+        int remainder = walletLeft % minPrice;
+        shoppingChart += (walletLeft - remainder) / minPrice;
+
+        return shoppingChart;
     }
 }
